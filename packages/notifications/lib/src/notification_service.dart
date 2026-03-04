@@ -52,6 +52,14 @@ class NotificationService {
     await _messaging.requestPermission(alert: true, badge: true, sound: true);
   }
 
+  Future<String?> getToken() async {
+    try {
+      return await _messaging.getToken();
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<void> _setupLocalNotifications() async {
     final channel = AndroidNotificationChannel(
       _channelConfig.channelId,
