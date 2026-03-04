@@ -4,6 +4,9 @@ environment:
   sdk: ^3.9.0
 workspace:
   - packages/notifications
+  - packages/state_helpers
+  - packages/result
+  - packages/tb_dio
 
 dev_dependencies:
   melos: ^7.4.0

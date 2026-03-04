@@ -1,1 +1,1 @@
-{"version":2,"entries":[{"package":"flutter_toolbox","rootUri":"../","packageUri":"lib/"}]}
+{"version":2,"entries":[{"package":"flutter_toolbox","rootUri":"../","packageUri":"lib/"},{"package":"tb_notifications","rootUri":"../packages/notifications/","packageUri":"lib/"},{"package":"tb_state_helpers","rootUri":"../packages/state_helpers/","packageUri":"lib/"},{"package":"result","rootUri":"../packages/result/","packageUri":"lib/"},{"package":"tb_dio","rootUri":"../packages/tb_dio/","packageUri":"lib/"}]}
