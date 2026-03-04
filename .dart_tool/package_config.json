@@ -441,7 +441,7 @@
     },
     {
       "name": "tb_notifications",
-      "rootUri": "../packages/notification",
+      "rootUri": "../packages/notifications",
       "packageUri": "lib/",
       "languageVersion": "3.11"
     }

@@ -3,7 +3,7 @@ publish_to: none
 environment:
   sdk: ^3.9.0
 workspace:
-  - packages/notification
+  - packages/notifications
 
 dev_dependencies:
   melos: ^7.4.0

@@ -1,7 +1,7 @@
 name: tb_notifications
 description: "Notification service for flutter toolbox"
 version: 0.0.1
-homepage: http://github.com/callmhejerry/flutter-tool-box
+homepage: https://github.com/callmhejerry/flutter-tool-box
 resolution: workspace
 
 environment:
@@ -19,7 +19,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^6.0.0
 
-# For information on the generic Dart part of this file, see the
+# For information on the generic Dart part of "pubspec.yaml""../notification"this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
