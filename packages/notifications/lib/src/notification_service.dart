@@ -27,6 +27,7 @@ class NotificationService {
     required NotificationChannelConfig config,
     required NotificationHandler handler,
     void Function(String token)? onTokenReceived,
+    Future<void> Function(RemoteMessage)? fcmOnBackgroundMessageHandler,
   }) async {
     if (_isInitialized) return;
 
@@ -35,7 +36,7 @@ class NotificationService {
 
     await _requestPermission();
     await _setupLocalNotifications();
-    _setupFCMHandlers();
+    _setupFCMHandlers(handler: fcmOnBackgroundMessageHandler);
     await _handleInitialMessage();
 
     final token = await _messaging.getToken();
@@ -91,7 +92,7 @@ class NotificationService {
     );
   }
 
-  void _setupFCMHandlers() {
+  void _setupFCMHandlers({Future<void> Function(RemoteMessage)? handler}) {
     FirebaseMessaging.onMessage.listen((message) async {
       final notification = message.notification;
       if (notification == null) return;
@@ -121,6 +122,9 @@ class NotificationService {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       _handler.onNotificationTap(message.data, navigatorKey);
     });
+    if (handler != null) {
+      FirebaseMessaging.onBackgroundMessage(handler);
+    }
   }
 
   Future<void> _handleInitialMessage() async {
