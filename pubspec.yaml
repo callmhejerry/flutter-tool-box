@@ -2,8 +2,8 @@ name: flutter_toolbox
 publish_to: none
 environment:
   sdk: ^3.9.0
-# workspace:
-#   - packages/**
+workspace:
+  - packages/notification
 
 dev_dependencies:
   melos: ^7.4.0
