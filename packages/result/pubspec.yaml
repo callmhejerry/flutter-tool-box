@@ -11,9 +11,7 @@ environment:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
-flutter:
-dependencies:
-  test: ^1.29.0
+
 dev_dependencies:
   test: ^1.29.0
 
