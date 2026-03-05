@@ -9,6 +9,8 @@ workspace:
   - packages/tb_dio
   - packages/tb_force_update
   - packages/tb_storage
+  - packages/tb_form
+  - packages/tb_image
 
 dev_dependencies:
   melos: ^7.4.0

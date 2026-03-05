@@ -1,0 +1,200 @@
+# flutter_toolbox/.github/workflows/reusable_ci.yml
+name: Reusable CI
+
+on:
+  workflow_call:
+    # Inputs the calling app can customize
+    inputs:
+      flutter_version:
+        description: Flutter version to use
+        type: string
+        default: "3.22.x"
+      working_directory:
+        description: Root directory of the Flutter app
+        type: string
+        default: "."
+      run_tests:
+        description: Whether to run tests
+        type: boolean
+        default: true
+      run_build_runner:
+        description: Run build_runner before tests (for codegen)
+        type: boolean
+        default: false
+      android_build:
+        description: Build Android APK as part of CI
+        type: boolean
+        default: false
+      ios_build:
+        description: Build iOS as part of CI (requires macOS runner)
+        type: boolean
+        default: false
+      flavor:
+        description: App flavor (e.g. dev, staging, prod)
+        type: string
+        default: ""
+      dart_define:
+        description: Extra --dart-define args (e.g. ENV=staging)
+        type: string
+        default: ""
+
+    # Secrets the calling app passes in
+    secrets:
+      GOOGLE_SERVICES_JSON:
+        description: Base64 encoded google-services.json
+        required: false
+      GOOGLE_SERVICE_INFO_PLIST:
+        description: Base64 encoded GoogleService-Info.plist
+        required: false
+
+jobs:
+  # ── Job 1: Analyze & Format ────────────────────────────────────────────────
+  analyze:
+    name: Analyze & Format
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ inputs.flutter_version }}
+          cache: true
+
+      - name: Get dependencies
+        working-directory: ${{ inputs.working_directory }}
+        run: flutter pub get
+
+      - name: Run build_runner
+        if: ${{ inputs.run_build_runner }}
+        working-directory: ${{ inputs.working_directory }}
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Format check
+        working-directory: ${{ inputs.working_directory }}
+        run: dart format --output=none --set-exit-if-changed lib
+
+      - name: Analyze
+        working-directory: ${{ inputs.working_directory }}
+        run: flutter analyze --no-fatal-infos
+
+  # ── Job 2: Test ────────────────────────────────────────────────────────────
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: analyze
+    if: ${{ inputs.run_tests }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ inputs.flutter_version }}
+          cache: true
+
+      - name: Get dependencies
+        working-directory: ${{ inputs.working_directory }}
+        run: flutter pub get
+
+      - name: Run build_runner
+        if: ${{ inputs.run_build_runner }}
+        working-directory: ${{ inputs.working_directory }}
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Inject google-services.json
+        if: ${{ env.GOOGLE_SERVICES_JSON != '' }}
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON}}
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 --decode \
+            > ${{ inputs.working_directory }}/android/app/google-services.json
+
+      - name: Run tests
+        working-directory: ${{ inputs.working_directory }}
+        run: flutter test --coverage
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: ${{ inputs.working_directory }}/coverage/lcov.info
+        continue-on-error: true
+
+  # ── Job 3: Android Build ───────────────────────────────────────────────────
+  android_build:
+    name: Android Build
+    runs-on: ubuntu-latest
+    needs: test
+    if: ${{ inputs.android_build }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ inputs.flutter_version }}
+          cache: true
+
+      - name: Inject google-services.json
+        if: ${{ env.GOOGLE_SERVICES_JSON != '' }}
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON}}
+        run: |
+          echo "${{ env.GOOGLE_SERVICES_JSON }}" | base64 --decode \
+            > ${{ inputs.working_directory }}/android/app/google-services.json
+
+      - name: Get dependencies
+        working-directory: ${{ inputs.working_directory }}
+        run: flutter pub get
+
+      - name: Build APK
+        working-directory: ${{ inputs.working_directory }}
+        run: |
+          flutter build apk --release \
+            ${{ inputs.flavor != '' && format('--flavor {0}', inputs.flavor) || '' }} \
+            ${{ inputs.dart_define != '' && format('--dart-define={0}', inputs.dart_define) || '' }}
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: ${{ inputs.working_directory }}/build/app/outputs/flutter-apk/app-release.apk
+
+  # ── Job 4: iOS Build ───────────────────────────────────────────────────────
+  ios_build:
+    name: iOS Build
+    runs-on: macos-latest
+    needs: test
+    if: ${{ inputs.ios_build }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ inputs.flutter_version }}
+          cache: true
+
+      - name: Inject GoogleService-Info.plist
+        env:
+          GOOGLE_SERVICE_INFO_PLIST: ${{ secrets.GOOGLE_SERVICES_JSON}}
+        if: ${{ env.GOOGLE_SERVICE_INFO_PLIST != '' }}
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}" | base64 --decode \
+            > ${{ inputs.working_directory }}/ios/Runner/GoogleService-Info.plist
+
+      - name: Get dependencies
+        working-directory: ${{ inputs.working_directory }}
+        run: flutter pub get
+
+      - name: Build iOS (no codesign)
+        working-directory: ${{ inputs.working_directory }}
+        run: |
+          flutter build ios --release --no-codesign \
+            ${{ inputs.flavor != '' && format('--flavor {0}', inputs.flavor) || '' }} \
+            ${{ inputs.dart_define != '' && format('--dart-define={0}', inputs.dart_define) || '' }}
