@@ -13,10 +13,10 @@ dependencies:
   dio: ^5.9.2
   flutter:
     sdk: flutter
-  result:
+  tb_result:
     git:
       url: https://github.com/callmhejerry/flutter-tool-box
-      path: packages/result
+      path: packages/tb_result
 
 dev_dependencies:
   flutter_test:

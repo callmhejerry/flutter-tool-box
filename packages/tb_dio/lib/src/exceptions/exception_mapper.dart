@@ -1,8 +1,8 @@
 // lib/src/exceptions/exception_mapper.dart
 
 import 'package:dio/dio.dart';
+import 'package:tb_result/tb_result.dart';
 import 'network_exception.dart';
-import 'package:result/result.dart';
 
 /// Maps [DioException] → [NetworkException] → [Failure]
 class ExceptionMapper {

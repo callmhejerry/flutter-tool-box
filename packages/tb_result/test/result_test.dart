@@ -1,5 +1,5 @@
-import 'package:result/src/failure.dart';
-import 'package:result/src/result.dart';
+import 'package:tb_result/src/failure.dart';
+import 'package:tb_result/src/result.dart';
 import 'package:test/test.dart';
 
 void main() {

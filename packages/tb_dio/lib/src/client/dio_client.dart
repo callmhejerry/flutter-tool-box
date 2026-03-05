@@ -2,7 +2,7 @@
 
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:result/result.dart';
+import 'package:tb_result/tb_result.dart';
 import '../config/dio_client_config.dart';
 import '../exceptions/exception_mapper.dart';
 import '../exceptions/network_exception.dart';

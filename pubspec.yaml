@@ -5,9 +5,10 @@ environment:
 workspace:
   - packages/notifications
   - packages/state_helpers
-  - packages/result
+  - packages/tb_result
   - packages/tb_dio
   - packages/tb_force_update
+  - packages/tb_storage
 
 dev_dependencies:
   melos: ^7.4.0

@@ -1,11 +1,12 @@
 {
   "roots": [
     "flutter_toolbox",
-    "result",
     "tb_dio",
     "tb_force_update",
     "tb_notifications",
-    "tb_state_helpers"
+    "tb_result",
+    "tb_state_helpers",
+    "tb_storage"
   ],
   "packages": [
     {
@@ -43,7 +44,7 @@
       ]
     },
     {
-      "name": "result",
+      "name": "tb_result",
       "version": "0.0.1",
       "dependencies": [],
       "devDependencies": [
@@ -56,7 +57,7 @@
       "dependencies": [
         "dio",
         "flutter",
-        "result"
+        "tb_result"
       ],
       "devDependencies": [
         "flutter_lints",
@@ -71,9 +72,23 @@
         "flutter",
         "in_app_update",
         "package_info_plus",
-        "result",
         "shorebird_code_push",
+        "tb_result",
         "url_launcher"
+      ],
+      "devDependencies": [
+        "flutter_lints",
+        "flutter_test"
+      ]
+    },
+    {
+      "name": "tb_storage",
+      "version": "0.0.1",
+      "dependencies": [
+        "flutter",
+        "flutter_secure_storage",
+        "shared_preferences",
+        "tb_result"
       ],
       "devDependencies": [
         "flutter_lints",
@@ -136,6 +151,44 @@
       ]
     },
     {
+      "name": "shared_preferences",
+      "version": "2.5.4",
+      "dependencies": [
+        "flutter",
+        "shared_preferences_android",
+        "shared_preferences_foundation",
+        "shared_preferences_linux",
+        "shared_preferences_platform_interface",
+        "shared_preferences_web",
+        "shared_preferences_windows"
+      ]
+    },
+    {
+      "name": "flutter_secure_storage",
+      "version": "10.0.0",
+      "dependencies": [
+        "flutter",
+        "flutter_secure_storage_darwin",
+        "flutter_secure_storage_linux",
+        "flutter_secure_storage_platform_interface",
+        "flutter_secure_storage_web",
+        "flutter_secure_storage_windows",
+        "meta"
+      ]
+    },
+    {
+      "name": "flutter",
+      "version": "0.0.0",
+      "dependencies": [
+        "characters",
+        "collection",
+        "material_color_utilities",
+        "meta",
+        "sky_engine",
+        "vector_math"
+      ]
+    },
+    {
       "name": "shorebird_code_push",
       "version": "2.0.5",
       "dependencies": [
@@ -191,18 +244,6 @@
       "version": "4.2.5",
       "dependencies": [
         "flutter"
-      ]
-    },
-    {
-      "name": "flutter",
-      "version": "0.0.0",
-      "dependencies": [
-        "characters",
-        "collection",
-        "material_color_utilities",
-        "meta",
-        "sky_engine",
-        "vector_math"
       ]
     },
     {
@@ -531,6 +572,127 @@
       ]
     },
     {
+      "name": "shared_preferences_windows",
+      "version": "2.4.1",
+      "dependencies": [
+        "file",
+        "flutter",
+        "path",
+        "path_provider_platform_interface",
+        "path_provider_windows",
+        "shared_preferences_platform_interface"
+      ]
+    },
+    {
+      "name": "shared_preferences_web",
+      "version": "2.4.3",
+      "dependencies": [
+        "flutter",
+        "flutter_web_plugins",
+        "shared_preferences_platform_interface",
+        "web"
+      ]
+    },
+    {
+      "name": "shared_preferences_platform_interface",
+      "version": "2.4.1",
+      "dependencies": [
+        "flutter",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "shared_preferences_linux",
+      "version": "2.4.1",
+      "dependencies": [
+        "file",
+        "flutter",
+        "path",
+        "path_provider_linux",
+        "path_provider_platform_interface",
+        "shared_preferences_platform_interface"
+      ]
+    },
+    {
+      "name": "shared_preferences_foundation",
+      "version": "2.5.6",
+      "dependencies": [
+        "flutter",
+        "shared_preferences_platform_interface"
+      ]
+    },
+    {
+      "name": "shared_preferences_android",
+      "version": "2.4.21",
+      "dependencies": [
+        "flutter",
+        "shared_preferences_platform_interface"
+      ]
+    },
+    {
+      "name": "flutter_secure_storage_windows",
+      "version": "4.1.0",
+      "dependencies": [
+        "ffi",
+        "flutter",
+        "flutter_secure_storage_platform_interface",
+        "path",
+        "path_provider",
+        "win32"
+      ]
+    },
+    {
+      "name": "flutter_secure_storage_web",
+      "version": "2.1.0",
+      "dependencies": [
+        "flutter",
+        "flutter_secure_storage_platform_interface",
+        "flutter_web_plugins",
+        "web"
+      ]
+    },
+    {
+      "name": "flutter_secure_storage_platform_interface",
+      "version": "2.0.1",
+      "dependencies": [
+        "flutter",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "flutter_secure_storage_linux",
+      "version": "3.0.0",
+      "dependencies": [
+        "flutter",
+        "flutter_secure_storage_platform_interface"
+      ]
+    },
+    {
+      "name": "flutter_secure_storage_darwin",
+      "version": "0.2.0",
+      "dependencies": [
+        "flutter",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "sky_engine",
+      "version": "0.0.0",
+      "dependencies": []
+    },
+    {
+      "name": "material_color_utilities",
+      "version": "0.13.0",
+      "dependencies": [
+        "collection"
+      ]
+    },
+    {
+      "name": "characters",
+      "version": "1.4.1",
+      "dependencies": []
+    },
+    {
       "name": "ffi",
       "version": "2.2.0",
       "dependencies": []
@@ -645,23 +807,6 @@
       "dependencies": [
         "flutter"
       ]
-    },
-    {
-      "name": "sky_engine",
-      "version": "0.0.0",
-      "dependencies": []
-    },
-    {
-      "name": "material_color_utilities",
-      "version": "0.13.0",
-      "dependencies": [
-        "collection"
-      ]
-    },
-    {
-      "name": "characters",
-      "version": "1.4.1",
-      "dependencies": []
     },
     {
       "name": "webkit_inspection_protocol",
@@ -1001,10 +1146,52 @@
       "dependencies": []
     },
     {
+      "name": "path_provider_windows",
+      "version": "2.3.0",
+      "dependencies": [
+        "ffi",
+        "flutter",
+        "path",
+        "path_provider_platform_interface"
+      ]
+    },
+    {
+      "name": "path_provider_platform_interface",
+      "version": "2.1.2",
+      "dependencies": [
+        "flutter",
+        "platform",
+        "plugin_platform_interface"
+      ]
+    },
+    {
       "name": "plugin_platform_interface",
       "version": "2.1.8",
       "dependencies": [
         "meta"
+      ]
+    },
+    {
+      "name": "path_provider_linux",
+      "version": "2.2.1",
+      "dependencies": [
+        "ffi",
+        "flutter",
+        "path",
+        "path_provider_platform_interface",
+        "xdg_directories"
+      ]
+    },
+    {
+      "name": "path_provider",
+      "version": "2.1.5",
+      "dependencies": [
+        "flutter",
+        "path_provider_android",
+        "path_provider_foundation",
+        "path_provider_linux",
+        "path_provider_platform_interface",
+        "path_provider_windows"
       ]
     },
     {
@@ -1131,6 +1318,69 @@
         "firebase_core_platform_interface",
         "flutter",
         "meta"
+      ]
+    },
+    {
+      "name": "path_provider_foundation",
+      "version": "2.6.0",
+      "dependencies": [
+        "ffi",
+        "flutter",
+        "objective_c",
+        "path_provider_platform_interface"
+      ]
+    },
+    {
+      "name": "path_provider_android",
+      "version": "2.2.22",
+      "dependencies": [
+        "flutter",
+        "path_provider_platform_interface"
+      ]
+    },
+    {
+      "name": "objective_c",
+      "version": "9.3.0",
+      "dependencies": [
+        "code_assets",
+        "collection",
+        "ffi",
+        "hooks",
+        "logging",
+        "native_toolchain_c",
+        "pub_semver"
+      ]
+    },
+    {
+      "name": "native_toolchain_c",
+      "version": "0.17.4",
+      "dependencies": [
+        "code_assets",
+        "glob",
+        "hooks",
+        "logging",
+        "meta",
+        "pub_semver"
+      ]
+    },
+    {
+      "name": "hooks",
+      "version": "1.0.1",
+      "dependencies": [
+        "collection",
+        "crypto",
+        "logging",
+        "meta",
+        "pub_semver",
+        "yaml"
+      ]
+    },
+    {
+      "name": "code_assets",
+      "version": "1.0.0",
+      "dependencies": [
+        "collection",
+        "hooks"
       ]
     }
   ],

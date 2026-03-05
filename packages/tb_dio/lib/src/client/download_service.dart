@@ -1,7 +1,7 @@
 // lib/src/client/download_service.dart
 
 import 'package:dio/dio.dart';
-import 'package:result/result.dart';
+import 'package:tb_result/tb_result.dart';
 import '../exceptions/exception_mapper.dart';
 import '../exceptions/network_exception.dart';
 import 'dio_client.dart';
